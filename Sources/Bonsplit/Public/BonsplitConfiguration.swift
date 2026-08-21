@@ -489,18 +489,26 @@ extension BonsplitConfiguration {
             /// When unset, Bonsplit derives separators from the chrome background.
             public var borderHex: String?
 
+            /// Optional hex color (`#RRGGBB` or `#RRGGBBAA`) for accented tab-bar
+            /// chrome: the selected-tab indicator and the unread notification dot.
+            /// When unset, Bonsplit uses the system accent color, which follows the
+            /// user's macOS accent preference rather than the host app's theme.
+            public var accentHex: String?
+
             public init(
                 backgroundHex: String? = nil,
                 tabBarBackgroundHex: String? = nil,
                 splitButtonBackdropHex: String? = nil,
                 paneBackgroundHex: String? = nil,
-                borderHex: String? = nil
+                borderHex: String? = nil,
+                accentHex: String? = nil
             ) {
                 self.backgroundHex = backgroundHex
                 self.tabBarBackgroundHex = tabBarBackgroundHex
                 self.splitButtonBackdropHex = splitButtonBackdropHex
                 self.paneBackgroundHex = paneBackgroundHex
                 self.borderHex = borderHex
+                self.accentHex = accentHex
             }
         }
 

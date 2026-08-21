@@ -57,6 +57,13 @@ enum TabBarColors {
         return NSColor(bonsplitHex: value)
     }
 
+    private static func accentColor(
+        for appearance: BonsplitConfiguration.Appearance
+    ) -> NSColor? {
+        guard let value = appearance.chromeColors.accentHex else { return nil }
+        return nonClearColor(NSColor(bonsplitHex: value))
+    }
+
     private static func chromeBorderColor(
         for appearance: BonsplitConfiguration.Appearance
     ) -> NSColor? {
@@ -272,16 +279,24 @@ enum TabBarColors {
         return dropIndicator
     }
 
-    static func activeIndicator(saturation: Double) -> Color {
-        Color(nsColor: nsColorActiveIndicator(saturation: saturation))
+    static func activeIndicator(
+        saturation: Double,
+        for appearance: BonsplitConfiguration.Appearance
+    ) -> Color {
+        Color(nsColor: nsColorActiveIndicator(saturation: saturation, for: appearance))
     }
 
-    static func nsColorActiveIndicator(saturation: Double) -> NSColor {
-        NSColor.controlAccentColor.bonsplitSaturating(by: saturation)
+    static func nsColorActiveIndicator(
+        saturation: Double,
+        for appearance: BonsplitConfiguration.Appearance
+    ) -> NSColor {
+        let base = accentColor(for: appearance) ?? .controlAccentColor
+        return base.bonsplitSaturating(by: saturation)
     }
 
-    static var focusRing: Color {
-        Color.accentColor.opacity(0.5)
+    static func focusRing(for appearance: BonsplitConfiguration.Appearance) -> Color {
+        let base = accentColor(for: appearance).map(Color.init(nsColor:)) ?? Color.accentColor
+        return base.opacity(0.5)
     }
 
     static var dirtyIndicator: Color {
@@ -298,8 +313,8 @@ enum TabBarColors {
     }
 
     static func notificationBadge(for appearance: BonsplitConfiguration.Appearance) -> Color {
-        _ = appearance
-        return notificationBadge
+        guard let accent = accentColor(for: appearance) else { return notificationBadge }
+        return Color(nsColor: accent)
     }
 
     // MARK: - Shadows
