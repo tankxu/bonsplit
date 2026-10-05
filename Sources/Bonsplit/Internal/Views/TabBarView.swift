@@ -1142,6 +1142,7 @@ struct TabBarView: View {
         .frame(height: tabBarHeight)
         .coordinateSpace(name: "tabBar")
         .background(tabBarSurface)
+        .background(ChromeHitRegion.Marker())
         .overlay(alignment: .trailing) {
             splitButtonBackdropChrome
                 .opacity(shouldShowSplitButtons ? 1 : 0)
