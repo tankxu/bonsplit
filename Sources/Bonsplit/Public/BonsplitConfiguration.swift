@@ -152,6 +152,11 @@ extension BonsplitConfiguration {
             case systemImage(String)
             case emoji(String, scale: Double = 1)
             case imageData(Data)
+            /// Raster image drawn as a silhouette in the button's foreground
+            /// color, like an SF Symbol, instead of in its own colors. For marks
+            /// with a transparent background that should match the neighbouring
+            /// symbol buttons.
+            case templateImageData(Data)
 
             private enum CodingKeys: String, CodingKey {
                 case type
@@ -179,6 +184,8 @@ extension BonsplitConfiguration {
                     )
                 case "imageData":
                     self = .imageData(try container.decode(Data.self, forKey: .data))
+                case "templateImageData":
+                    self = .templateImageData(try container.decode(Data.self, forKey: .data))
                 default:
                     throw DecodingError.dataCorruptedError(
                         forKey: .type,
@@ -202,6 +209,9 @@ extension BonsplitConfiguration {
                     }
                 case .imageData(let data):
                     try container.encode("imageData", forKey: .type)
+                    try container.encode(data, forKey: .data)
+                case .templateImageData(let data):
+                    try container.encode("templateImageData", forKey: .type)
                     try container.encode(data, forKey: .data)
                 }
             }

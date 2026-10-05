@@ -1597,6 +1597,18 @@ struct TabBarView: View {
                 Image(systemName: "questionmark.circle")
                     .font(.system(size: 12 * scale))
             }
+        case .templateImageData(let data):
+            if let image = splitActionButtonImage(from: data) {
+                Image(nsImage: image)
+                    .renderingMode(.template)
+                    .resizable()
+                    .interpolation(.high)
+                    .scaledToFit()
+                    .frame(width: 14 * scale, height: 14 * scale)
+            } else {
+                Image(systemName: "questionmark.circle")
+                    .font(.system(size: 12 * scale))
+            }
         }
     }
 
